@@ -17,7 +17,6 @@ signal.directive('playAndVisualize', ['$window', function($window){
                 $scope.models.peaks = [];
                 $scope.recalcPeaksWidth();
             });
-
             $scope.models = {
                 audio: new Audio(),
                 context: new AudioContext(),
