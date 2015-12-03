@@ -1,3 +1,94 @@
 html, body {
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background: rgba(212,228,239,1);
+    background: -moz-linear-gradient(-45deg, rgba(212,228,239,1) 0%, rgba(79,120,245,1) 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(212,228,239,1)), color-stop(100%, rgba(79,120,245,1)));
+    background: -webkit-linear-gradient(-45deg, rgba(212,228,239,1) 0%, rgba(79,120,245,1) 100%);
+    background: -o-linear-gradient(-45deg, rgba(212,228,239,1) 0%, rgba(79,120,245,1) 100%);
+    background: -ms-linear-gradient(-45deg, rgba(212,228,239,1) 0%, rgba(79,120,245,1) 100%);
+    background: linear-gradient(135deg, rgba(212,228,239,1) 0%, rgba(79,120,245,1) 100%);
 }
+/*service classes*/
+.full-height{
+    height: 100%;
+}
+
+.flex{
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+}
+
+.flex-center-vertical{
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.flex-center-horizontal{
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+/*end service classes*/
+
+/*app classes*/
+.signal{
+    position: relative;
+    width: 100%;
+}
+.signal-controls{
+    text-align: center;
+    position: relative;
+}
+
+.signal-peaks{
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+}
+
+.left-channel{
+    float: left;
+    width: 50%;
+}
+.right-channel{
+    float: right;
+    width: 50%;
+}
+.btn-play-pause{
+    display: inline-block;
+    border-radius: 999px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    box-shadow:0 0 0 5px #d3dbf4;
+    background-color: #4F78F5;
+    color: white;
+}
+
+.btn-play-pause i{
+    margin-top:13px;
+}
+.signal-peaks--peak{
+    -webkit-transition: height 0s linear;
+    -moz-transition: height 0s linear;
+    transition: height 0s linear;
+    display: inline-block;
+    background: rgba(212,228,239,1);
+    background: -moz-linear-gradient(-45deg, rgba(212,228,239,1) 0%, rgb(79, 120, 245) 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(212,228,239,1)), color-stop(100%, rgba(79,120,245,1)));
+    background: -webkit-linear-gradient(-45deg, rgba(212,228,239,1) 0%, rgba(79,120,245,1) 100%);
+    background: -o-linear-gradient(-45deg, rgba(212,228,239,1) 0%, rgba(79,120,245,1) 100%);
+    background: -ms-linear-gradient(-45deg, rgba(212,228,239,1) 0%, rgba(79,120,245,1) 100%);
+    background: linear-gradient(135deg, rgba(212,228,239,1) 0%, rgba(79,120,245,1) 100%);
+}
+

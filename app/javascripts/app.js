@@ -10,7 +10,7 @@ signal.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
             when('/', {
-                templateUrl: 'views/signal.view.html',
+                templateUrl: 'app/app-views/signal.view.html',
                 controller: 'mainCtrl'
             }).
             otherwise({

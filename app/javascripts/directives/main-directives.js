@@ -1,70 +1,89 @@
-/**
- * Created by A.vachik on 10.07.2015.
- */
-
-gallery.directive('notification', ['$timeout', function($timeout){
-    return {
-        restrict:'E',
+signal.directive('playAndVisualize', ['$window', function($window){
+    return{
+        restrict: 'AE',
         scope:{
-            notificationMessage:'='
+            playAndVisualize:'@',
+            autoplay:'=',
+            loop:'=',
+            peaksCount:'='
         },
-        template:'<div class="notification-message"><span class="notification-message--text" ng-bind-html="notification.message"></span></div>',
-        link:function($scope, $element){
-            var $notificationContainer = angular.element($element.children()[0]);
-            $scope.$watch('notificationMessage', function(notification){
-                if (notification){
-                    $scope.notification = notification;
-                    $notificationContainer.addClass('active');
-                    $timeout(function(){
-                        $notificationContainer.removeClass('active')
-                    }, 3000);
-                }
+        templateUrl: "app/directive-views/play-and-visualize.view.html",
+        link: function ($scope, $element) {
+            window.AudioContext = window.AudioContext || window.webkitAudioContext;
+            $scope.models = {
+                audio: new Audio(),
+                context: new AudioContext(),
+                spectrum: null,
+                signalSource: null,
+                signalSourceNode: null,
+                signalAnalyser: null,
+                currentPlayPosition: null,
+                audioDuration:null,
+                peaks:[],
+                peakWidth : Math.round(($element[0].clientWidth / 2) / $scope.peaksCount * 1100) / 1100 + "px"
+            };
+
+            console.log($element);
+
+            $scope.models.audio.loop = $scope.loop;
+            $scope.models.audio.src = $scope.playAndVisualize;
+
+            $scope.models.audio.addEventListener('loadedmetadata', function() {
+                $scope.models.audioDuration = $scope.models.audio.duration;
             });
+
+            $scope.models.audio.addEventListener('canplay', function (e) {
+                $scope.models.signalAnalyser = ($scope.models.signalAnalyser || $scope.models.context.createAnalyser());
+                $scope.models.signalSource = $scope.models.context.createBufferSource();
+                $scope.models.signalAnalyser.fftSize = 4096;
+                try {
+                    $scope.models.signalSourceNode = $scope.models.context.createMediaElementSource($scope.models.audio);
+                }
+                catch (e) {
+                    return;
+                }
+                $scope.models.signalSourceNode.connect($scope.models.signalAnalyser);
+                $scope.models.signalSourceNode.connect($scope.models.context.destination);
+                if ($scope.autoplay){
+                    $scope.models.audio.play();
+                    $scope.isPlaying = true;
+                }
+                $scope.getSpectrumData();
+            });
+
+            $scope.getSpectrumData = function () {
+                $scope.models.spectrum = new Uint8Array($scope.models.signalAnalyser.frequencyBinCount);
+                $scope.models.signalAnalyser.getByteFrequencyData($scope.models.spectrum);
+                if($scope.isPlaying){
+                    $scope.drawPeaks();
+                }
+                $scope.models.currentPlayPosition = $scope.models.audio.currentTime;
+                if ($scope.models.currentPlayPosition < $scope.models.audioDuration ){
+                    window.requestAnimationFrame($scope.getSpectrumData);
+                }
+                $scope.$apply();
+            };
+
+            $scope.drawPeaks = function () {
+                for (var i = 0; i < $scope.peaksCount; i++) {
+                    $scope.models.peaks[i] = {
+                        height:$scope.models.spectrum[i] + "px",
+                        width: $scope.models.peakWidth
+                    };
+                }
+            };
+
+            $scope.playPauseToggle = function () {
+                if ($scope.isPlaying == true) {
+                    $scope.isPlaying = false;
+                    $scope.models.audio.pause();
+                }
+                else {
+                    $scope.isPlaying = true;
+                    $scope.models.audio.play();
+                }
+            };
+
         }
     };
 }]);
-
-gallery.directive( 'inlineEdit', function() {
-    return {
-        restrict: 'E',
-        scope: {
-            model: '=',
-            onEditFinish: '='
-        },
-        template: '<div class="edit-icon"><i class="glyphicon glyphicon-edit base-icon-color"></i></div><span ng-click="edit()" ng-bind="model" title="Click to edit"></span><input ng-model="model" ng-keyup="handleKeys($event)">',
-        link: function ( $scope, element ) {
-            var inputElement = angular.element( element.children()[2] ); // get <input> element
-            element.addClass( 'inline-edit-field' );
-            $scope.editing = false;
-            //$scope.old_value = '';
-            if ($scope.model == '') {
-                $scope.model = 0;
-            }
-            $scope.edit = function () {
-                $scope.editing = true;
-                element.addClass( 'active' );
-                inputElement[0].focus();
-                //$scope.old_value = $scope.model;
-            };
-
-            $scope.handleKeys = function($event){
-                if($event.keyCode === 13){
-                    inputElement[0].blur();
-                }
-            };
-
-            inputElement.prop( 'onblur', function() {
-                $scope.editing = false;
-                element.removeClass( 'active' );
-                if ($scope.onEditFinish){
-                    $scope.onEditFinish();
-                }
-                if ($scope.model == '') {
-                    $scope.model = 0;
-                }
-                //var offset = $scope.model - $scope.old_value;
-                //$scope.$parent.$parent.$parent.recalculateDuration($scope.$parent.cardIndex, $scope.$parent.$parent.elemIndex, offset);
-            });
-        }
-    };
-});

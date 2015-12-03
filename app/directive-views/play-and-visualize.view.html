@@ -1,0 +1,26 @@
+<div class="signal">
+    <div class="signal-peaks">
+        <div class="left-channel">
+            <div class="signal-peaks--peak"
+                 ng-repeat="peak in models.peaks"
+                 ng-style="{'height' : peak.height, 'width': peak.width}">
+            </div>
+        </div>
+        <div class="left-channel">
+            <div class="signal-peaks--peak"
+                 ng-repeat="peak in models.peaks | orderBy:'$index':true"
+                 ng-style="{'height' : peak.height, 'width':peak.width}">
+            </div>
+        </div>
+    </div>
+
+    <div class="signal-controls">
+        <div class="btn-play-pause"
+             ng-click="playPauseToggle()">
+            <i class="fa fa2x"
+               ng-class="{'fa-play': isPlaying , 'fa-pause': !isPlaying }">
+            </i>
+        </div>
+    </div>
+</div>
+
