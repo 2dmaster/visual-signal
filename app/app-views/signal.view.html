@@ -1,6 +1,15 @@
-<div class="full-height flex flex-center-horizontal flex-center-vertical"
-     play-and-visualize="app/audio/storm.mp3"
-     loop="true"
-     autoplay="true"
-     peaks-count="64">
+<div class="player-settings">
+    <label class="player-settings--control">Resolution:
+        <select class="player-settings-control--value"
+                ng-options="res.value as res.name for res in player.peaksResolutions"
+                ng-model="player.currentResolution">
+        </select>
+    </label>
+</div>
+<div class="full-height player-layout">
+    <div class="full-height flex flex-center-horizontal flex-center-vertical"
+         play-and-visualize="player.track"
+         autoplay="false"
+         peaks-count="player.currentResolution">
+    </div>
 </div>

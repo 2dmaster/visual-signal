@@ -7,6 +7,13 @@ html, body {
     background: -o-linear-gradient(-45deg, rgba(212,228,239,1) 0%, rgba(79,120,245,1) 100%);
     background: -ms-linear-gradient(-45deg, rgba(212,228,239,1) 0%, rgba(79,120,245,1) 100%);
     background: linear-gradient(135deg, rgba(212,228,239,1) 0%, rgba(79,120,245,1) 100%);
+    margin: 0;
+    padding: 0;
+}
+*{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 /*service classes*/
 .full-height{
@@ -45,44 +52,74 @@ html, body {
 }
 .signal-controls{
     text-align: center;
-    position: relative;
+    position: absolute;
+    left: 50%;
+    margin-left: -20px;
+    top: 50%;
+    margin-top: -20px;
 }
 
 .signal-peaks{
-    position: absolute;
-    overflow: hidden;
     width: 100%;
-    left: 0;
-    bottom: 0;
+}
+.left-channel,
+.right-channel{
+    width: 50%;
 }
 
 .left-channel{
     float: left;
-    width: 50%;
 }
 .right-channel{
     float: right;
-    width: 50%;
 }
 .btn-play-pause{
-    display: inline-block;
+    display: block;
+    position: relative;
     border-radius: 999px;
     width: 40px;
     height: 40px;
     cursor: pointer;
-    box-shadow:0 0 0 5px #d3dbf4;
     background-color: #4F78F5;
     color: white;
+    box-shadow: 0 0 5px 5px #d3dbf4;
 }
-
 .btn-play-pause i{
     margin-top:13px;
+}
+
+.baloon{
+    position: absolute;
+    border-radius:6px;
+    border:2px solid #d3dbf4;
+    display: inline-block;
+    background-color: #8EABF2;
+    color: white;
+    top: -50px;
+    left: -22px;
+    padding: 6px 12px;
+    white-space: nowrap;
+}
+
+.baloon:after{
+    content: '';
+    display: block;
+    position: absolute;
+    left: 50%;
+    margin-left: -10px;
+    bottom: -10px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 10px 0 10px;
+    border-color: #d3dbf4 transparent transparent transparent;
 }
 .signal-peaks--peak{
     -webkit-transition: height 0s linear;
     -moz-transition: height 0s linear;
     transition: height 0s linear;
     display: inline-block;
+    border-radius: 6px;
     background: rgba(212,228,239,1);
     background: -moz-linear-gradient(-45deg, rgba(212,228,239,1) 0%, rgb(79, 120, 245) 100%);
     background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(212,228,239,1)), color-stop(100%, rgba(79,120,245,1)));
@@ -91,4 +128,23 @@ html, body {
     background: -ms-linear-gradient(-45deg, rgba(212,228,239,1) 0%, rgba(79,120,245,1) 100%);
     background: linear-gradient(135deg, rgba(212,228,239,1) 0%, rgba(79,120,245,1) 100%);
 }
+.player-settings{
+    position: fixed;
+    text-align: center;
+    width: 100%;
+}
 
+.player-settings--control{
+    display: inline-block;
+    width: 15%;
+    text-align: left;
+    color:white;
+}
+.player-settings-control--value{
+    display: block;
+    width: 100%;
+    padding: 6px;
+    border:none;
+    outline: none;
+    border-radius: 3px;
+}

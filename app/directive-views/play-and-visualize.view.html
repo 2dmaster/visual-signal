@@ -1,12 +1,12 @@
 <div class="signal">
     <div class="signal-peaks">
-        <div class="left-channel">
+        <div class="left-channel flex flex-center-vertical">
             <div class="signal-peaks--peak"
                  ng-repeat="peak in models.peaks"
                  ng-style="{'height' : peak.height, 'width': peak.width}">
             </div>
         </div>
-        <div class="left-channel">
+        <div class="left-channel flex flex-center-vertical">
             <div class="signal-peaks--peak"
                  ng-repeat="peak in models.peaks | orderBy:'$index':true"
                  ng-style="{'height' : peak.height, 'width':peak.width}">
@@ -20,6 +20,9 @@
             <i class="fa fa2x"
                ng-class="{'fa-play': isPlaying , 'fa-pause': !isPlaying }">
             </i>
+            <div class="baloon" ng-show="!isPlaying">
+                Click Me!
+            </div>
         </div>
     </div>
 </div>

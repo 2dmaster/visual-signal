@@ -2,14 +2,22 @@ signal.directive('playAndVisualize', ['$window', function($window){
     return{
         restrict: 'AE',
         scope:{
-            playAndVisualize:'@',
+            playAndVisualize:'=',
             autoplay:'=',
-            loop:'=',
             peaksCount:'='
         },
         templateUrl: "app/directive-views/play-and-visualize.view.html",
         link: function ($scope, $element) {
-            window.AudioContext = window.AudioContext || window.webkitAudioContext;
+            $window.AudioContext = $window.AudioContext || $window.webkitAudioContext;
+            $scope.recalcPeaksWidth = function(){
+                $scope.models.peakWidth = Math.round(($element[0].clientWidth / 2) / $scope.peaksCount * 1000) / 1000 + "px";
+            };
+
+            $scope.$watch('peaksCount', function(){
+                $scope.models.peaks = [];
+                $scope.recalcPeaksWidth();
+            });
+
             $scope.models = {
                 audio: new Audio(),
                 context: new AudioContext(),
@@ -20,13 +28,11 @@ signal.directive('playAndVisualize', ['$window', function($window){
                 currentPlayPosition: null,
                 audioDuration:null,
                 peaks:[],
-                peakWidth : Math.round(($element[0].clientWidth / 2) / $scope.peaksCount * 1100) / 1100 + "px"
+                peakWidth : null
             };
 
-            console.log($element);
-
-            $scope.models.audio.loop = $scope.loop;
             $scope.models.audio.src = $scope.playAndVisualize;
+            $scope.recalcPeaksWidth();
 
             $scope.models.audio.addEventListener('loadedmetadata', function() {
                 $scope.models.audioDuration = $scope.models.audio.duration;
@@ -59,9 +65,9 @@ signal.directive('playAndVisualize', ['$window', function($window){
                 }
                 $scope.models.currentPlayPosition = $scope.models.audio.currentTime;
                 if ($scope.models.currentPlayPosition < $scope.models.audioDuration ){
-                    window.requestAnimationFrame($scope.getSpectrumData);
+                    $window.requestAnimationFrame($scope.getSpectrumData);
                 }
-                $scope.$apply();
+                $scope.$apply(); // Yes it's a case when you must use watchers :(
             };
 
             $scope.drawPeaks = function () {
@@ -83,6 +89,18 @@ signal.directive('playAndVisualize', ['$window', function($window){
                     $scope.models.audio.play();
                 }
             };
+
+            $scope.easterEegg = function(e){
+                console.log(e);
+                if (e.keyCode == 123 || e.button == 2){
+                    e.preventDefault();
+                    $window.alert('Are you serious ? :) ');
+                }
+            };
+
+            $window.onresize = $scope.recalcPeaksWidth;
+            $window.onkeydown = $scope.easterEegg;
+            $window.onmouseup = $scope.easterEegg;
 
         }
     };
