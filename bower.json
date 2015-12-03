@@ -1,0 +1,25 @@
+{
+  "name": "visual-signal",
+  "version": "0.0.1",
+  "homepage": "https://github.com/2dmaster/visual-signal",
+  "authors": [
+    "2dmaster <dmasterfake@gmail.com>"
+  ],
+  "description": "Angular test task",
+  "main": "app.js",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "angular-route": "~1.4.8"
+  }
+}
