@@ -13,7 +13,7 @@ signal.directive('playAndVisualize', ['$window', function($window){
                 $scope.models.peakWidth = Math.round(($element[0].clientWidth / 2) / $scope.peaksCount * 1000) / 1000 + "px";
             };
 
-            $scope.$watch('peaksCount', function(){
+            $scope.$watch('peaksCount', function(){// Yes it's a case when you must use watchers :(
                 $scope.models.peaks = [];
                 $scope.recalcPeaksWidth();
             });
@@ -66,7 +66,7 @@ signal.directive('playAndVisualize', ['$window', function($window){
                 if ($scope.models.currentPlayPosition < $scope.models.audioDuration ){
                     $window.requestAnimationFrame($scope.getSpectrumData);
                 }
-                $scope.$apply(); // Yes it's a case when you must use watchers :(
+                $scope.$apply();
             };
 
             $scope.drawPeaks = function () {
