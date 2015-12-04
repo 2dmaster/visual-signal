@@ -1,4 +1,5 @@
 Make sure you have Bower installed on your host.
+This doesn't works in INTERNET EXPLORER browser.
 
 mkdir visual-signal
 
