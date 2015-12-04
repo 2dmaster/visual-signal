@@ -91,7 +91,7 @@ signal.directive('playAndVisualize', ['$window', function($window){
 
             $scope.easterEegg = function(e){
                 console.log(e);
-                if (e.keyCode == 123 || e.button == 2){
+                if (e.keyCode == 123){
                     e.preventDefault();
                     $window.alert('Are you serious ? :) ');
                 }
@@ -99,8 +99,6 @@ signal.directive('playAndVisualize', ['$window', function($window){
 
             $window.onresize = $scope.recalcPeaksWidth;
             $window.onkeydown = $scope.easterEegg;
-            $window.onmouseup = $scope.easterEegg;
-
         }
     };
 }]);
